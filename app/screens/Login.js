@@ -10,6 +10,10 @@ import Button from '../components/Button'
 
 import t from 'tcomb-form-native';
 
+import { connect } from 'react-redux';
+
+import { passwordGrant } from '../data/actions/api'
+
 const Form = t.form.Form;
 
 const User = t.struct({
@@ -62,9 +66,12 @@ class LoginScreen extends Component {
     const value = this._form.getValue();
     if (value) {
       console.log('value: ', value);
+
+      this.props.onPress(value);
+
       this.clearForm();
-      await AsyncStorage.setItem('userToken', 'abc');
-      this.props.navigation.navigate('App');
+      // await AsyncStorage.setItem('userToken', 'abc');
+      // this.props.navigation.navigate('App');
     }
   }
 
@@ -89,6 +96,12 @@ LoginScreen.navigationOptions = {
   title: 'Please login',
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onPress: data => dispatch(passwordGrant(data)),
+  }
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -100,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default connect(null, mapDispatchToProps)(LoginScreen);
