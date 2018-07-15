@@ -1,6 +1,6 @@
 import axios from '../axios';
 
-import { setToken } from './state';
+import { setToken, addUser } from './state';
 
 export const passwordGrant = ({email, password }) => dispatch => {
 
@@ -13,11 +13,21 @@ export const passwordGrant = ({email, password }) => dispatch => {
 		scope: '',
 	}
 
-	console.log(data);
-
 	axios.post('/oauth/token', data).then(({ data }) => {
-		const token = data;
-		console.log(token);
-		dispatch(setToken(token));
+		dispatch(setToken(data));
 	});
 };
+
+export const getUser = (token) => dispatch => {
+
+	const config = {
+		headers: {
+			'Accept': 'application/json',
+			'Authorization': 'Bearer ' + token
+		}
+	}
+
+	axios.get('api/user', '', config).then(({ data }) => {
+		dispatch(addUser(data));
+	});
+}

@@ -1,35 +1,40 @@
 import React, { Component } from 'react';
 
+// import react-native components
 import {
   AsyncStorage,
   StyleSheet,
   View,
 } from 'react-native';
 
-import Button from '../components/Button'
+// import custom component
+import Button from '../components/Button';
 
+// import forms library
 import t from 'tcomb-form-native';
 
 import { connect } from 'react-redux';
 
-import { passwordGrant } from '../data/actions/api'
+import { passwordGrant } from '../data/actions/api';
 
+// set up login form
 const Form = t.form.Form;
 
+// fields
 const User = t.struct({
   email: t.String,
   password: t.String,
 });
 
+// options and error messages
 const options = {
   auto: 'placeholders',
   fields: {
     email: {
-      // label: null,
+      autoCapitalize: 'none',
       error: 'Please enter an email address'
     },
     password: {
-      // label: 'Enter password',
       password: true,
       secureTextEntry: true,
       error: 'Please enter a password'
@@ -47,31 +52,25 @@ class LoginScreen extends Component {
         password: ''
       }
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
+  // onChange handler to manage local state
   onChange = (value) => {
     this.setState({value});
   }
 
-  _loginAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('App');
-  }
-
+  // reset form fields
   clearForm() {
     this.setState({value: {email: '', password: ''}});
   }
 
-  handleSubmit = async () => {
+  handleSubmit() {
     const value = this._form.getValue();
     if (value) {
-      console.log('value: ', value);
-
       this.props.onPress(value);
-
       this.clearForm();
-      // await AsyncStorage.setItem('userToken', 'abc');
-      // this.props.navigation.navigate('App');
     }
   }
 
@@ -86,7 +85,10 @@ class LoginScreen extends Component {
           onChange={this.onChange}
         />
         {/* <Button label='Login' onPress={this._loginAsync} /> */}
-        <Button label='Login' onPress={this.handleSubmit} />
+        <Button 
+          label='Login' 
+          onPress={this.handleSubmit} 
+        />
       </View>
     );
   }
@@ -102,6 +104,10 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
+const mapStateToProps = (state) => ({
+  token: state.access_token,
+});
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -113,4 +119,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, mapDispatchToProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

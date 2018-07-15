@@ -6,9 +6,23 @@ import {
   View,
 } from 'react-native';
 
-import Button from '../components/Button'
+import Button from '../components/Button';
+
+import { getUser } from '../data/actions/api';
+
+import { connect } from 'react-redux';
 
 class HomeScreen extends Component {
+  constructor(props){
+    super(props);
+  }
+  
+  componentDidMount() {
+    const { token } = this.props;
+    console.log('didMount ', token);
+    this.props.onLoad(token);
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -35,4 +49,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+const mapStateToProps = state => ({
+  user: state.user,
+  token: state.access_token
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLoad: token => dispatch(getUser(token)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

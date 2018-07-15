@@ -1,6 +1,26 @@
+const setToken = (state, { data }) => {
+  return {
+    ...state,
+    token_type: data.token_type,
+    expires_in: data.expires_in,
+    access_token: data.access_token,
+    refresh_token: data.refresh_token
+  };
+};
+
+const addUser = (state, { data }) => {
+  return {
+    ...state,
+    user: data.name,
+  };
+};
+
 const reducer = (state, action) => {
-  return state;
-}
+  switch (action.type) {
+    case 'setToken': return setToken(state, action);
+    case 'addUser': return addUser(state, action);
+    default: return state;
+  }  
+};
 
 export default reducer;
-

@@ -1,6 +1,15 @@
-export const setToken = token => {
+export const setToken = data => {
+  console.log('state.js setToken ', data)
   return {
     type: "setToken",
-    toekn: token,
+    data: data,
+  };
+};
+
+export const addUser = data => {
+  console.log('state.js addUser ', data)
+  return {
+    type: "addUser",
+    data: data,
   };
 };
