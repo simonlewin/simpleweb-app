@@ -33,7 +33,7 @@ export const getUser = (token) => dispatch => {
 }
 
 export const postRegister = data => dispatch => {
-
+	
 	const config = {
 		headers: {
 			'Accept': 'application/json',
@@ -42,7 +42,7 @@ export const postRegister = data => dispatch => {
 
 	const { email, password } = data;
 
-	axios.get('api/register', data, config).then(({ data }) => {
+	axios.post('api/register', data, config).then(({ data }) => {
 		// passwordGrant(data.email, password)
 	});
 }
