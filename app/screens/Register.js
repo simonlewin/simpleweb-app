@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // import react-native components
 import {
+  Alert,
   StyleSheet,
   View,
 } from 'react-native';
@@ -60,8 +61,9 @@ class RegisterScreen extends Component {
         name: '',
         email: '',
         password: '',
-        confirm: ''
-      }
+        confirm: '',
+      },
+      errors: [],
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -87,14 +89,23 @@ class RegisterScreen extends Component {
   handleSubmit() {
     const value = this._form.getValue();
 
-    console.log(value, value.password, value.confirmPassword);
-
-    if (value && (value.password === value.confirmPassword)) {
-      delete value.confirmPassword
-      console.log(value);
-      this.props.onPress(value);
-      this.clearForm();
-    } 
+    if (value ) {
+      if (value.password === value.confirmPassword) {
+        const data = {name: value.name, email: value.email, password: value.password};
+        
+        this.props.onPress(data);
+        this.clearForm();
+      } else {
+        Alert.alert(
+          'Please confirm password',
+          "You passwords don't match please re-enter",
+          [
+            {text: 'OK', },
+          ],
+          { cancelable: false }
+        )
+      }
+    }
   }
 
   render() {
