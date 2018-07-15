@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Http\Resources\UserResource;
 
 use Illuminate\Http\Request;
 
@@ -27,17 +28,21 @@ class Users extends Controller
      */
     public function store(Request $request)
     {
+        // validate request and return errors
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required'
+        ]);
+
         // get post request data for name, email and password
         $data = $request->only(['name', 'email', 'password']);
-
-        // hash password
-        // bcrypt($data['password']);
 
         // create user with data and store in DB
         $user = User::create($data);
 
         // return the user along with a 201 status code
-        return response($user, 201);
+        return new UserResource($user, 201);
     }
 
     /**
