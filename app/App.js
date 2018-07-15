@@ -12,9 +12,7 @@ import reducer from './data/reducer';
 import AuthLoadingScreen from './screens/AuthLoading';
 import LoginScreen from './screens/Login';
 import HomeScreen from './screens/Home';
-
-// Implementation of HomeScreen, OtherScreen, SignInScreen, AuthLoadingScreen
-// goes here.
+import RegisterScreen from './screens/Register';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -42,7 +40,8 @@ class Nav extends Component {
   render() {
     return (
       <Provider store={store}>
-        <RootNavigator />
+        <RegisterScreen />
+        {/* <RootNavigator /> */}
       </Provider>
     )
   }
