@@ -13,3 +13,9 @@ export const addUser = data => {
     data: data,
   };
 };
+
+export const removeUser = () => {
+  return {
+    type: "removeUser",
+  };
+};

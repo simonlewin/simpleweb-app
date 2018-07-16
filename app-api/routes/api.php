@@ -13,14 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 // Secured - return all Users
-$router->group(['middleware' => 'auth:api'], function ($router) {
-    $router->get('/user', 'Users@index');
-});
+// $router->group(['middleware' => 'auth:api'], function ($router) {
+//     $router->get('/user', 'Users@index');
+// });
 
 // Secured test
 $router->group(['middleware' => 'auth:api'], function ($router) {

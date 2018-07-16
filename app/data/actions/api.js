@@ -6,6 +6,7 @@ import { setToken, addUser } from './state';
 // import client_id and client_secret
 import { CLIENT_ID, CLIENT_SECRET } from '../client';
 
+// oauth password grant - POST /oauth/token
 export const passwordGrant = ({email, password }) => dispatch => {
 
 	const data = {
@@ -18,20 +19,22 @@ export const passwordGrant = ({email, password }) => dispatch => {
 	}
 
 	axios.post('/oauth/token', data).then(({ data }) => {
+		// dispatch signInRequested
 		dispatch(setToken(data));
 	});
 };
 
+// GET /api/user
 export const getUser = (token) => dispatch => {
-
+	
 	const config = {
 		headers: {
-			'Accept': 'application/json',
-			'Authorization': 'Bearer ' + token
+			Accept: 'application/json',
+			Authorization: 'Bearer ' + token
 		}
 	}
 
-	axios.get('api/user', '', config).then(({ data }) => {
+	axios.get('api/user', config).then(({ data }) => {
 		dispatch(addUser(data));
 	});
 }

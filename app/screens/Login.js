@@ -51,11 +51,18 @@ class LoginScreen extends Component {
 			value: {
         email: '',
         password: ''
+        // login / register
       }
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
 	}
+
+  componentDidUpdate(prevProps) {
+    if (this.props.token !== prevProps.token) {
+      this.props.navigation.navigate('App');
+    }
+  }
 
   // onChange handles keyboard input
   onChange = (value) => {
@@ -82,7 +89,9 @@ class LoginScreen extends Component {
   }
 
   render() {
-    const {token} = this.props;
+    // const {token} = this.props;
+    // if loading flag (SignInRequested) is set to true show activity indicator
+    // else show form
     return (
       <View style={styles.container}>
         <Form 
@@ -92,15 +101,10 @@ class LoginScreen extends Component {
           value={this.state.value}
           onChange={this.onChange}
         />
-        {/* <Button label='Login' onPress={this._loginAsync} /> */}
         <Button 
           label='Login' 
           onPress={this.handleSubmit} 
         />
-        {/* Debug only - remove */}
-        <Text>
-          {token}
-        </Text>
       </View>
     );
   }
@@ -118,6 +122,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state) => ({
   token: state.access_token,
+  // map new loading flag signInRequested
 });
 
 const styles = StyleSheet.create({

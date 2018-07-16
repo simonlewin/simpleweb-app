@@ -15,10 +15,20 @@ const addUser = (state, { data }) => {
   };
 };
 
+const removeUser = (state) => {
+  return {
+    ...state,
+    access_token: '',
+  };
+};
+
+// new action to set SignInRequested flag
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'setToken': return setToken(state, action);
     case 'addUser': return addUser(state, action);
+    case 'removeUser': return removeUser(state, action);
     default: return state;
   }  
 };

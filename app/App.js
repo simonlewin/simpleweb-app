@@ -40,8 +40,8 @@ class Nav extends Component {
   render() {
     return (
       <Provider store={store}>
-        <LoginScreen />
-        {/* <RootNavigator /> */}
+        {/* <HomeScreen /> */}
+        <RootNavigator />
       </Provider>
     )
   }
