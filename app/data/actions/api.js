@@ -1,13 +1,17 @@
 import axios from '../axios';
 
+// import state actions
 import { setToken, addUser } from './state';
+
+// import client_id and client_secret
+import { CLIENT_ID, CLIENT_SECRET } from '../client';
 
 export const passwordGrant = ({email, password }) => dispatch => {
 
 	const data = {
 		grant_type: 'password',
-		client_id: 2,
-		client_secret: 'bYUer2KEp4FD4rLH1QfqiBb4pABGxCfEImQk77AM',
+		client_id: CLIENT_ID,
+		client_secret: CLIENT_SECRET,
 		username: email,
 		password: password,
 		scope: '',

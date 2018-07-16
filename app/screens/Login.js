@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import {
   AsyncStorage,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 
@@ -20,13 +21,13 @@ import { passwordGrant } from '../data/actions/api';
 // set up login form
 const Form = t.form.Form;
 
-// fields
+// form fields
 const User = t.struct({
   email: t.String,
   password: t.String,
 });
 
-// options and error messages
+// form options and error messages
 const options = {
   auto: 'placeholders',
   fields: {
@@ -56,16 +57,22 @@ class LoginScreen extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-  // onChange handler to manage local state
+  // onChange handles keyboard input
   onChange = (value) => {
     this.setState({value});
   }
 
   // reset form fields
   clearForm() {
-    this.setState({value: {email: '', password: ''}});
+    this.setState({
+      value: {
+        email: '', 
+        password: ''
+      }
+    });
   }
 
+  // handleSubmit handles button press
   handleSubmit() {
     const value = this._form.getValue();
     if (value) {
@@ -75,6 +82,7 @@ class LoginScreen extends Component {
   }
 
   render() {
+    const {token} = this.props;
     return (
       <View style={styles.container}>
         <Form 
@@ -89,6 +97,10 @@ class LoginScreen extends Component {
           label='Login' 
           onPress={this.handleSubmit} 
         />
+        {/* Debug only - remove */}
+        <Text>
+          {token}
+        </Text>
       </View>
     );
   }
@@ -111,9 +123,7 @@ const mapStateToProps = (state) => ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: 'center',
     justifyContent: 'center',
-    // marginTop: 50,
     padding: 20,
     backgroundColor: '#fff',
   },

@@ -15,12 +15,13 @@ import t from 'tcomb-form-native';
 
 import { connect } from 'react-redux';
 
+// import api action
 import { postRegister } from '../data/actions/api';
 
 // set up register form
 const Form = t.form.Form;
 
-// fields
+// form fields
 const User = t.struct({
   name: t.String,
   email: t.String,
@@ -28,7 +29,7 @@ const User = t.struct({
   confirmPassword: t.String,
 });
 
-// options and error messages
+// form options and error messages
 const options = {
   auto: 'placeholders',
   fields: {
@@ -62,14 +63,13 @@ class RegisterScreen extends Component {
         email: '',
         password: '',
         confirm: '',
-      },
-      errors: [],
+      }
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-  // onChange handler to manage local state
+  // onChange handles keyboard input
   onChange = (value) => {
     this.setState({value});
   }
@@ -86,10 +86,13 @@ class RegisterScreen extends Component {
     });
   }
 
+  // handleSubmit handles button press
   handleSubmit() {
+    // get form fields
     const value = this._form.getValue();
 
     if (value ) {
+      // if passwords match and dispatch action and clear form else trigger alert
       if (value.password === value.confirmPassword) {
         const data = {name: value.name, email: value.email, password: value.password};
         
@@ -97,8 +100,8 @@ class RegisterScreen extends Component {
         this.clearForm();
       } else {
         Alert.alert(
-          'Please confirm password',
-          "You passwords don't match please re-enter",
+          'Passwords don\'t match',
+          'Please confirm your password',
           [
             {text: 'OK', },
           ],
