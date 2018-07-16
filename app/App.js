@@ -23,7 +23,7 @@ const store = createStore(
 );
 
 const AppStack = createStackNavigator({ Home: HomeScreen });
-const AuthStack = createStackNavigator({ SignIn: LoginScreen });
+const AuthStack = createStackNavigator({ SignIn: LoginScreen, Register: RegisterScreen });
 
 const RootNavigator = createSwitchNavigator(
   {

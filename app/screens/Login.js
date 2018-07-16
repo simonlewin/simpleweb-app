@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 // import react-native components
 import {
   AsyncStorage,
+  Button,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 
 // import custom component
-import Button from '../components/Button';
+import MyButton from '../components/Button';
 
 // import forms library
 import t from 'tcomb-form-native';
@@ -51,7 +52,8 @@ class LoginScreen extends Component {
 			value: {
         email: '',
         password: ''
-        // login / register
+        // login flag to show ActivityIndicator
+        // register flag to merge login and register screens
       }
     }
 
@@ -101,9 +103,13 @@ class LoginScreen extends Component {
           value={this.state.value}
           onChange={this.onChange}
         />
-        <Button 
+        <MyButton 
           label='Login' 
           onPress={this.handleSubmit} 
+        />
+        <Button
+          title="Register"
+          onPress={() => this.props.navigation.navigate('Register')}
         />
       </View>
     );
