@@ -8,26 +8,25 @@ const setToken = (state, { data }) => {
   };
 };
 
-const addUser = (state, { data }) => {
+const addName = (state, { data }) => {
   return {
     ...state,
-    user: data.name,
+    name: data.name,
   };
 };
 
-const removeUser = (state) => {
+const removeUser = state => {
   return {
     ...state,
     access_token: '',
+    name: '',
   };
 };
-
-// new action to set SignInRequested flag
 
 const reducer = (state, action) => {
   switch (action.type) {
     case 'setToken': return setToken(state, action);
-    case 'addUser': return addUser(state, action);
+    case 'addName': return addName(state, action);
     case 'removeUser': return removeUser(state, action);
     default: return state;
   }  

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 import {
-  // AsyncStorage,
+  ActivityIndicator,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -33,29 +34,28 @@ class HomeScreen extends Component {
   }
 
   render() {
-    const {user} = this.props;
+    const { name } = this.props;
     return (
-      <View style={styles.container}>
-        {user ?
+      name ? 
+        <View style={styles.container}>
           <Text style={styles.heading}>
-            Hi {user}{'\n'}{'\n'}
+            Hi { name }{'\n'}{'\n'}
               <Text style={styles.text}>
               You are now logged in.
             </Text>
           </Text>
-        : '' }
-        <Button
-          label='Logout' 
-          onPress={this.handleSubmit} 
-        />
-      </View>
+          <Button
+            label='Logout' 
+            onPress={this.handleSubmit} 
+          />
+        </View>
+      : 
+        <View style={styles.activity}>
+          <ActivityIndicator />
+          <StatusBar barStyle="default" />
+        </View>
     );
   }
-
-  // _logoutAsync = async () => {
-  //   await AsyncStorage.clear();
-  //   this.props.navigation.navigate('Auth');
-  // };
 }
 
 HomeScreen.navigationOptions = {
@@ -78,11 +78,17 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontSize: 18,  
-  }
+  },
+  activity: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
 });
 
 const mapStateToProps = state => ({
-  user: state.user,
+  name: state.name,
   token: state.access_token
 });
 

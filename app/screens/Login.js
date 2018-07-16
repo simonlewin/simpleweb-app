@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 
 // import react-native components
 import {
-  AsyncStorage,
+  ActivityIndicator,
   Button,
+  StatusBar,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 
@@ -51,10 +51,10 @@ class LoginScreen extends Component {
 		this.state = {
 			value: {
         email: '',
-        password: ''
-        // login flag to show ActivityIndicator
-        // register flag to merge login and register screens
-      }
+        password: '',
+      },
+      isSigningIn: false,
+      // register flag to merge login and register screens
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -86,32 +86,39 @@ class LoginScreen extends Component {
     const value = this._form.getValue();
     if (value) {
       this.props.onPress(value);
+      this.setState({
+        isSigningIn: true,
+      })
       this.clearForm();
     }
   }
 
   render() {
-    // const {token} = this.props;
-    // if loading flag (SignInRequested) is set to true show activity indicator
-    // else show form
+    const {isSigningIn} = this.state;
     return (
-      <View style={styles.container}>
-        <Form 
-          type={User} 
-          ref={c => this._form = c}
-          options={options}
-          value={this.state.value}
-          onChange={this.onChange}
-        />
-        <MyButton 
-          label='Login' 
-          onPress={this.handleSubmit} 
-        />
-        <Button
-          title="Register"
-          onPress={() => this.props.navigation.navigate('Register')}
-        />
-      </View>
+      isSigningIn ?
+        <View style={styles.container}>
+          <ActivityIndicator />
+          <StatusBar barStyle="default" />
+        </View>
+      :
+        <View style={styles.container}>
+          <Form 
+            type={User} 
+            ref={c => this._form = c}
+            options={options}
+            value={this.state.value}
+            onChange={this.onChange}
+          />
+          <MyButton 
+            label='Login' 
+            onPress={this.handleSubmit} 
+          />
+          <Button
+            title="Register"
+            onPress={() => this.props.navigation.navigate('Register')}
+          />
+        </View>
     );
   }
 }
@@ -128,7 +135,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state) => ({
   token: state.access_token,
-  // map new loading flag signInRequested
+  // isSigningIn: state.isSigningIn, 
 });
 
 const styles = StyleSheet.create({

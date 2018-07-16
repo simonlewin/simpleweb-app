@@ -1,13 +1,13 @@
 import axios from '../axios';
 
 // import state actions
-import { setToken, addUser } from './state';
+import { setToken, addName } from './state';
 
 // import client_id and client_secret
-import { CLIENT_ID, CLIENT_SECRET } from '../client';
+import { CLIENT_ID, CLIENT_SECRET } from '../config';
 
 // oauth password grant - POST /oauth/token
-export const passwordGrant = ({email, password }) => dispatch => {
+export const passwordGrant = ({ email, password }) => dispatch => {
 
 	const data = {
 		grant_type: 'password',
@@ -19,28 +19,27 @@ export const passwordGrant = ({email, password }) => dispatch => {
 	}
 
 	axios.post('/oauth/token', data).then(({ data }) => {
-		// dispatch signInRequested
 		dispatch(setToken(data));
 	});
 };
 
 // GET /api/user
-export const getUser = (token) => dispatch => {
-	
+export const getUser = token => dispatch => {
+
 	const config = {
 		headers: {
 			Accept: 'application/json',
-			Authorization: 'Bearer ' + token
+			Authorization: 'Bearer ' + token,
 		}
 	}
 
 	axios.get('api/user', config).then(({ data }) => {
-		dispatch(addUser(data));
+		dispatch(addName(data));
 	});
 }
 
-export const postRegister = data => dispatch => {
-	
+export const postRegister = data => dispatch => {	
+
 	const config = {
 		headers: {
 			'Accept': 'application/json',
