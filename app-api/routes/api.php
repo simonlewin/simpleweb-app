@@ -14,14 +14,14 @@ use Illuminate\Http\Request;
 */
 
 // Secured - return User (Laravel boilerplate)
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 // Secured - return User
-$router->group(['middleware' => 'auth:api'], function ($router) {
-    $router->get('/user', 'Users@user');
-});
+// $router->group(['middleware' => 'auth:api'], function ($router) {
+//     $router->get('/user', 'Users@user');
+// });
 
 // Secured test
 $router->group(['middleware' => 'auth:api'], function ($router) {
