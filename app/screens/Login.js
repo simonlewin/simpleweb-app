@@ -68,7 +68,7 @@ class LoginScreen extends Component {
 
   // onChange handles keyboard input
   onChange = (value) => {
-    this.setState({value});
+    this.setState({ value });
   }
 
   // reset form fields
@@ -133,7 +133,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   token: state.access_token,
   // isSigningIn: state.isSigningIn, 
 });

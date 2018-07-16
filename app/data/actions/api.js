@@ -17,7 +17,7 @@ export const passwordGrant = ({ email, password }) => dispatch => {
 		password: password,
 		scope: '',
 	}
-
+	console.log('in passwordGrant ', data);
 	axios.post('/oauth/token', data).then(({ data }) => {
 		dispatch(setToken(data));
 	});
@@ -42,13 +42,23 @@ export const postRegister = data => dispatch => {
 
 	const config = {
 		headers: {
-			'Accept': 'application/json',
+			Accept: 'application/json',
 		}
 	}
 
-	const { email, password } = data;
+	const { password } = data;
 
-	axios.post('api/register', data, config).then(({ data }) => {
-		// passwordGrant(data.email, password)
-	});
+	axios.post('api/register', data, config)
+		.then(({ data }) => {
+
+			const grantData = {
+				email: data.data.email,
+				password: password,
+			}
+
+			dispatch(passwordGrant(grantData));
+		})
+		.catch((error) => {
+			console.log(error);	
+		});
 }

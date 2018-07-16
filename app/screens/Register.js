@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import {
   Alert,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 
@@ -63,7 +64,8 @@ class RegisterScreen extends Component {
         email: '',
         password: '',
         confirm: '',
-      }
+      },
+      isSigningIn: false,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -71,7 +73,7 @@ class RegisterScreen extends Component {
 
   // onChange handles keyboard input
   onChange = (value) => {
-    this.setState({value});
+    this.setState({ value });
   }
 
   // reset form fields
@@ -94,7 +96,11 @@ class RegisterScreen extends Component {
     if (value ) {
       // if passwords match and dispatch action and clear form else trigger alert
       if (value.password === value.confirmPassword) {
-        const data = {name: value.name, email: value.email, password: value.password};
+        const data = { 
+          name: value.name, 
+          email: value.email, 
+          password: value.password 
+        };
         
         this.props.onPress(data);
         this.clearForm();
@@ -103,7 +109,7 @@ class RegisterScreen extends Component {
           'Passwords don\'t match',
           'Please confirm your password',
           [
-            {text: 'OK', },
+            { text: 'OK', },
           ],
           { cancelable: false }
         )
@@ -112,6 +118,7 @@ class RegisterScreen extends Component {
   }
 
   render() {
+    // const { token } = this.props;
     return (
       <View style={styles.container}>
         <Form 
@@ -125,6 +132,7 @@ class RegisterScreen extends Component {
           label='Register' 
           onPress={this.handleSubmit} 
         />
+        {/* <Text>{ token }</Text> */}
       </View>
     );
   }
@@ -139,6 +147,10 @@ const mapDispatchToProps = dispatch => {
     onPress: data => dispatch(postRegister(data)),
   }
 }
+
+// const mapStateToProps = state => ({
+//   token: state.access_token,
+// });
 
 const styles = StyleSheet.create({
   container: {

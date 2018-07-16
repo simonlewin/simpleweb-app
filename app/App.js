@@ -9,7 +9,7 @@ import thunk from 'redux-thunk';
 import initial from './data/initial';
 import reducer from './data/reducer';
 
-import AuthLoadingScreen from './screens/AuthLoading';
+// import AuthLoadingScreen from './screens/AuthLoading';
 import LoginScreen from './screens/Login';
 import HomeScreen from './screens/Home';
 import RegisterScreen from './screens/Register';
@@ -27,12 +27,13 @@ const AuthStack = createStackNavigator({ SignIn: LoginScreen, Register: Register
 
 const RootNavigator = createSwitchNavigator(
   {
-    AuthLoading: AuthLoadingScreen,
+    // AuthLoading: AuthLoadingScreen,
     App: AppStack,
     Auth: AuthStack,
   },
   {
-    initialRouteName: 'AuthLoading',
+    // initialRouteName: 'AuthLoading',
+    initialRouteName: 'Auth',
   }
 );
 
@@ -40,7 +41,6 @@ class Nav extends Component {
   render() {
     return (
       <Provider store={store}>
-        {/* <HomeScreen /> */}
         <RootNavigator />
       </Provider>
     )
