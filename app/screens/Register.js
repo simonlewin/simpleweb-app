@@ -72,7 +72,7 @@ class RegisterScreen extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-  // onChange handles keyboard input
+  // onChange to handle keyboard input
   onChange = (value) => {
     this.setState({ value });
   }
@@ -86,10 +86,10 @@ class RegisterScreen extends Component {
         password: '',
         confirm: '',
       }
-    });
+    })
   }
 
-  // handleSubmit handles button press
+  // handleSubmit handles register button press
   handleSubmit() {
     // get form fields
     const value = this._form.getValue();
@@ -122,6 +122,7 @@ class RegisterScreen extends Component {
   }
 
   render() {
+    // if isRegistering render activity indicator else render register form
     const {isRegistering} = this.state;
     return (
       isRegistering ? 
@@ -151,16 +152,14 @@ RegisterScreen.navigationOptions = {
   title: 'Please register',
 }
 
+// connect dispatch actions to state
 const mapDispatchToProps = dispatch => {
   return {
     onPress: data => dispatch(postRegister(data)),
   }
 }
 
-// const mapStateToProps = state => ({
-//   token: state.access_token,
-// });
-
+// container style sheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,

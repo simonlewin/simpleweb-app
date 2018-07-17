@@ -23,11 +23,35 @@ const removeUser = state => {
   };
 };
 
+const setError = (state, { status, error, message  }) => {
+  return {
+    ...state,
+    error: {
+      status: status,
+      error: error,
+      message: message,
+    },
+  };
+};
+
+const clearError = state => {
+  return {
+    ...state,
+    error: {
+      status: '',
+      error: '',
+      message: '',
+    },
+  };
+};
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'setToken': return setToken(state, action);
     case 'addName': return addName(state, action);
     case 'removeUser': return removeUser(state, action);
+    case 'setError': return setError(state, action);
+    case 'clearError': return clearError(state, action);
     default: return state;
   }  
 };

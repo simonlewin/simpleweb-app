@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // import react-native components
 import {
   ActivityIndicator,
+  Alert,
   Button,
   StatusBar,
   StyleSheet,
@@ -18,6 +19,7 @@ import t from 'tcomb-form-native';
 import { connect } from 'react-redux';
 
 import { passwordGrant } from '../data/actions/api';
+import { clearError } from '../data/actions/state';
 
 // set up login form
 const Form = t.form.Form;
@@ -54,19 +56,33 @@ class LoginScreen extends Component {
         password: '',
       },
       isSigningIn: false,
-      // register flag to merge login and register screens
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
+  // use lifecycle method to navigate to App stack
+  // if token is set in state
   componentDidUpdate(prevProps) {
     if (this.props.token !== prevProps.token) {
       this.props.navigation.navigate('App');
     }
-  }
+    if (this.props.error !== prevProps.error) {
+      this.setState({
+        isSigningIn: false,
+      })
+      Alert.alert(
+        'Error - please try again',
+        `${this.props.error.status} - ${this.props.error.message}`,    
+        [
+          { text: 'OK' }
+        ],
+        { cancelable: false }
+      );
+    };
+  };
 
-  // onChange handles keyboard input
+  // onChange to handle keyboard input
   onChange = (value) => {
     this.setState({ value });
   }
@@ -81,11 +97,13 @@ class LoginScreen extends Component {
     });
   }
 
-  // handleSubmit handles button press
+  // handleSubmit handles login button press
   handleSubmit() {
+    // get form fields
     const value = this._form.getValue();
+    
     if (value) {
-      this.props.onPress(value);
+      this.props.onSubmit(value);
       this.setState({
         isSigningIn: true,
       })
@@ -94,7 +112,9 @@ class LoginScreen extends Component {
   }
 
   render() {
-    const {isSigningIn} = this.state;
+    // if isSigningIn render activity indicator else render form
+    const { isSigningIn } = this.state;
+    // console.log(this.props.error);
     return (
       isSigningIn ?
         <View style={styles.container}>
@@ -127,17 +147,20 @@ LoginScreen.navigationOptions = {
   title: 'Please login',
 }
 
+// connect dispatch actions and props to state
 const mapDispatchToProps = dispatch => {
   return {
-    onPress: data => dispatch(passwordGrant(data)),
+    onSubmit: data => dispatch(passwordGrant(data)),
+    // onPress: () => dispatch(clearError()),
   }
 }
 
 const mapStateToProps = state => ({
   token: state.access_token,
-  // isSigningIn: state.isSigningIn, 
+  error: state.error,
 });
 
+// container style sheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,

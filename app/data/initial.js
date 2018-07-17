@@ -4,6 +4,11 @@ const initial = {
   access_token: '',
   refresh_token: '',
   name: '',
+  error: {
+    status: '',
+    error: '',
+    message: '',
+  },
 };
 
 export default initial

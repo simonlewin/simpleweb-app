@@ -17,3 +17,18 @@ export const removeUser = () => {
     type: "removeUser",
   };
 };
+
+export const setError = (status, {error, message}) => {
+  return {
+    type: "setError",
+    status: status,
+    error: error,
+    message: message,
+  };
+};
+
+export const clearError = () => {
+  return {
+    type: "clearError",
+  };
+};

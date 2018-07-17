@@ -1,7 +1,7 @@
 import axios from '../axios';
 
 // import state actions
-import { setToken, addName } from './state';
+import { setToken, addName, setError, clearError } from './state';
 
 // import client_id and client_secret
 import { CLIENT_ID, CLIENT_SECRET } from '../config';
@@ -17,12 +17,17 @@ export const passwordGrant = ({ email, password }) => dispatch => {
 		password: password,
 		scope: '',
 	}
-	console.log('in passwordGrant ', data);
-	axios.post('/oauth/token', data).then(({ data }) => {
+
+	axios.post('/oauth/token', data)
+	.then(({ data }) => {
 		dispatch(setToken(data));
+		// dispatch(clearError());
+	})
+	.catch(({ response }) => {
+		dispatch(setError(response.status, response.data));
 	});
 };
-
+	
 // GET /api/user
 export const getUser = token => dispatch => {
 
