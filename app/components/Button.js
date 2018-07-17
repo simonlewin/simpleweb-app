@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import { View, TouchableHighlight, Text, StyleSheet } from 'react-native';
 
@@ -13,8 +13,8 @@ const Button = ({ label, onPress }) => {
         <Text style={styles.text}>{label}</Text>
       </TouchableHighlight>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
