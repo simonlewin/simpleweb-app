@@ -1,7 +1,7 @@
 import axios from '../axios';
 
 // import state actions
-import { setToken, addName, setError, clearError } from './state';
+import { setToken, addName, setError } from './state';
 
 // import client_id and client_secret
 import { CLIENT_ID, CLIENT_SECRET } from '../config';
@@ -19,13 +19,23 @@ export const passwordGrant = ({ email, password }) => dispatch => {
 	}
 
 	axios.post('/oauth/token', data)
-	.then(({ data }) => {
-		dispatch(setToken(data));
-		// dispatch(clearError());
-	})
-	.catch(({ response }) => {
-		dispatch(setError(response.status, response.data));
-	});
+		.then(({ data }) => {
+			dispatch(setToken(data));
+		})
+		.catch(error => {
+			if (error.response) {
+				// request was made and the server responded with a status code !== 2xx
+				const { status, data } = error.response;
+				dispatch(setError(status, data));
+			} else if (error.request) {
+				// request was made but no response was received
+				// console.log(error.request);
+			} else {
+				// something else happened in setting up the request that triggered an error
+				// console.log(error.message);
+			}
+			// console.log(error.config);
+		});
 };
 	
 // GET /api/user
@@ -38,10 +48,21 @@ export const getUser = token => dispatch => {
 		}
 	}
 
-	axios.get('api/user', config).then(({ data }) => {
-		dispatch(addName(data));
-	});
-}
+	axios.get('api/user', config)
+		.then(({ data }) => {
+			dispatch(addName(data));
+		})
+		.catch(error => {
+			if (error.response) {
+				// console.log(error.request.data);
+			} else if (error.request) {
+				// console.log(error.request);
+			} else {
+				// console.log(error.message);
+			}
+			// console.log(error.config);
+		});
+};
 
 export const postRegister = data => dispatch => {	
 
@@ -64,6 +85,13 @@ export const postRegister = data => dispatch => {
 			dispatch(passwordGrant(grantData));
 		})
 		.catch((error) => {
-			console.log(error);	
+			if (error.response) {
+				// console.log(error.request.data);
+			} else if (error.request) {
+				// console.log(error.request);
+			} else {
+				// console.log(error.message);
+			}
+			// console.log(error.config);
 		});
-}
+};

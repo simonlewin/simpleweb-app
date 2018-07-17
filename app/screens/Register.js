@@ -23,10 +23,15 @@ import { postRegister } from '../data/actions/api';
 // set up register form
 const Form = t.form.Form;
 
+const Email = t.refinement(t.String, email => {
+  const reg = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/; 
+  return reg.test(email);
+});
+
 // form fields
 const User = t.struct({
   name: t.String,
-  email: t.String,
+  email: Email,
   password: t.String,
   confirmPassword: t.String,
 });

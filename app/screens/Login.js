@@ -59,15 +59,23 @@ class LoginScreen extends Component {
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePress = this.handlePress.bind(this);
 	}
 
-  // use lifecycle method to navigate to App stack
-  // if token is set in state
+  // handlePress handles alert button press
+  // dispatches action to clear error obj
+  handlePress() {
+    this.props.onPress();
+  }
+
+  // componentDidUpdat lifecycle method 
   componentDidUpdate(prevProps) {
+    // navigate to App stack if token is set in state
     if (this.props.token !== prevProps.token) {
       this.props.navigation.navigate('App');
     }
-    if (this.props.error !== prevProps.error) {
+    // if error has changed and error property is not blank trigger alert 
+    if ((this.props.error !== prevProps.error) && this.props.error.error !== '' ) {
       this.setState({
         isSigningIn: false,
       })
@@ -75,7 +83,7 @@ class LoginScreen extends Component {
         'Error - please try again',
         `${this.props.error.status} - ${this.props.error.message}`,    
         [
-          { text: 'OK' }
+          { text: 'OK', onPress: () => this.handlePress() }
         ],
         { cancelable: false }
       );
@@ -114,7 +122,6 @@ class LoginScreen extends Component {
   render() {
     // if isSigningIn render activity indicator else render form
     const { isSigningIn } = this.state;
-    // console.log(this.props.error);
     return (
       isSigningIn ?
         <View style={styles.container}>
@@ -148,10 +155,12 @@ LoginScreen.navigationOptions = {
 }
 
 // connect dispatch actions and props to state
+// onSubmit button to request for access token in exchange for email and password
+// onPress for alert to clear error object 
 const mapDispatchToProps = dispatch => {
   return {
     onSubmit: data => dispatch(passwordGrant(data)),
-    // onPress: () => dispatch(clearError()),
+    onPress: () => dispatch(clearError()),
   }
 }
 
