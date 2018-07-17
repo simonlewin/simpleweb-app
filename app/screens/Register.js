@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 
 // import react-native components
 import {
+  ActivityIndicator,
   Alert,
+  StatusBar,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 
@@ -65,7 +66,7 @@ class RegisterScreen extends Component {
         password: '',
         confirm: '',
       },
-      isSigningIn: false,
+      isRegistering: false,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -103,6 +104,9 @@ class RegisterScreen extends Component {
         };
         
         this.props.onPress(data);
+        this.setState({
+          isRegistering: true,
+        })
         this.clearForm();
       } else {
         Alert.alert(
@@ -118,22 +122,27 @@ class RegisterScreen extends Component {
   }
 
   render() {
-    // const { token } = this.props;
+    const {isRegistering} = this.state;
     return (
-      <View style={styles.container}>
-        <Form 
-          type={User} 
-          ref={c => this._form = c}
-          options={options}
-          value={this.state.value}
-          onChange={this.onChange}
-        />
-        <Button 
-          label='Register' 
-          onPress={this.handleSubmit} 
-        />
-        {/* <Text>{ token }</Text> */}
-      </View>
+      isRegistering ? 
+        <View style={styles.container}>
+          <ActivityIndicator />
+          <StatusBar barStyle="default" />
+        </View>
+      :
+        <View style={styles.container}>
+          <Form 
+            type={User} 
+            ref={c => this._form = c}
+            options={options}
+            value={this.state.value}
+            onChange={this.onChange}
+          />
+          <Button 
+            label='Register' 
+            onPress={this.handleSubmit} 
+          />
+        </View>
     );
   }
 }
