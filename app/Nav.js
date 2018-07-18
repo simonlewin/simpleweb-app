@@ -10,11 +10,12 @@ const AuthStack = createStackNavigator({ Register: RegisterScreen, SignIn: Login
 
 const RootNavigator = createSwitchNavigator(
   {
+    AuthStart: RegisterScreen,
     App: AppStack,
     Auth: AuthStack,
   },
   {
-    initialRouteName: 'Auth',
+    initialRouteName: 'AuthStart',
   }
 );
 

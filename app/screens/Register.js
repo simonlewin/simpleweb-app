@@ -165,9 +165,9 @@ RegisterScreen.navigationOptions = {
 }
 
 // Debug
-// const mapStateToProps = state => ({
-//   state: state,
-// });
+const mapStateToProps = state => ({
+  state: state,
+});
 
 // connect dispatch actions to state
 const mapDispatchToProps = dispatch => {
