@@ -1,3 +1,5 @@
+import { initial } from "./initial";
+
 const setToken = (state, { data }) => {
   return {
     ...state,
@@ -18,8 +20,16 @@ const addName = (state, { data }) => {
 const removeUser = state => {
   return {
     ...state,
+    token_type: '',
+    expires_in: null,
     access_token: '',
+    refresh_token: '',
     name: '',
+    error: {
+      status: '',
+      error: '',
+      message: '',
+    },
   };
 };
 

@@ -73,9 +73,14 @@ class RegisterScreen extends Component {
       },
       isRegistering: false,
     }
-
+    
     this.handleSubmit = this.handleSubmit.bind(this);
 	}
+
+  // Debug
+  componentDidMount() {
+    // console.log(this.props.state);
+  }
 
   // onChange to handle keyboard input
   onChange = (value) => {
@@ -113,6 +118,7 @@ class RegisterScreen extends Component {
           isRegistering: true,
         })
         this.clearForm();
+        this.props.navigation.navigate('App');
       } else {
         Alert.alert(
           'Passwords don\'t match',
@@ -127,6 +133,7 @@ class RegisterScreen extends Component {
   }
 
   render() {
+    console.log(this.props.state);
     // if isRegistering render activity indicator else render register form
     const {isRegistering} = this.state;
     return (
@@ -157,6 +164,11 @@ RegisterScreen.navigationOptions = {
   title: 'Please register',
 }
 
+// Debug
+// const mapStateToProps = state => ({
+//   state: state,
+// });
+
 // connect dispatch actions to state
 const mapDispatchToProps = dispatch => {
   return {
@@ -174,4 +186,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, mapDispatchToProps)(RegisterScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);

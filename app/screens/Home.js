@@ -21,10 +21,12 @@ class HomeScreen extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
-  componentDidMount() {
+
+  componentDidUpdate(prevProps) {
     const { token } = this.props;
-    this.props.onLoad(token);
+    if (token !== prevProps.token) {
+      this.props.onLoad(token);
+    }
   }
 
   // handleSubmit handles button press
@@ -35,6 +37,9 @@ class HomeScreen extends Component {
 
   render() {
     const { name } = this.props;
+    console.log(name);
+    console.log(this.props);
+
     return (
       name ? 
         <View style={styles.container}>
