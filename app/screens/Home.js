@@ -15,16 +15,38 @@ import { removeUser } from '../data/actions/state';
 
 import { connect } from 'react-redux';
 
+import { SecureStore } from 'expo';
+
 class HomeScreen extends Component {
   constructor(props){
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this._getEmail = this._getEmail.bind(this);
+    this._getPassword = this._getPassword.bind(this);
   }
-  
+
+  _getEmail = async () => {
+    const email = await SecureStore.getItemAsync('email');
+    console.log(email);
+    return email;
+  };
+
+  _getPassword = async () => {
+    const password = await SecureStore.getItemAsync('password');
+    console.log(password);
+    return password;
+  };
+
+
   componentDidMount() {
     const { token } = this.props;
     this.props.onLoad(token);
+
+    const email = _getEmail;
+    const password = _getPassword;
+
+    console.log(email, password);
   }
 
   // handleSubmit handles button press

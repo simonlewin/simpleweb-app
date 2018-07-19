@@ -6,6 +6,13 @@ import { setToken, addName, setError } from './state';
 // import client_id and client_secret
 import { CLIENT_ID, CLIENT_SECRET } from '../config';
 
+import { SecureStore } from 'expo';
+
+_storeEmail = async (email, password) => {
+	await SecureStore.setItemAsync('email', email);
+	await SecureStore.setItemAsync('password', password);
+};
+
 // oauth password grant - POST /oauth/token
 export const passwordGrant = ({ email, password }) => dispatch => {
 
@@ -20,6 +27,8 @@ export const passwordGrant = ({ email, password }) => dispatch => {
 
 	axios.post('/oauth/token', data)
 		.then(({ data }) => {
+			console.log(email, password);
+			_storeEmail(email, password);
 			dispatch(setToken(data));
 		})
 		.catch(error => {

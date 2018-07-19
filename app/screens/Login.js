@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  AlertIOS,
   Button,
   StatusBar,
   StyleSheet,
@@ -20,6 +21,8 @@ import { connect } from 'react-redux';
 
 import { passwordGrant } from '../data/actions/api';
 import { clearError } from '../data/actions/state';
+
+import Expo, { Constants } from 'expo';
 
 // set up login form
 const Form = t.form.Form;
@@ -119,6 +122,21 @@ class LoginScreen extends Component {
     }
   }
 
+  scanBiometrics = async () => {
+    let result = await Expo.Fingerprint.authenticateAsync('Authenticate with Touch ID');
+    if (result.success) {
+      AlertIOS.alert(
+        'Success',
+        'Authenticated Successfully'
+      );
+    } else {
+      AlertIOS.alert(
+        'Error',
+        'Authentication Failed'
+      );
+    }
+  };
+
   render() {
     // if isSigningIn render activity indicator else render form
     const { isSigningIn } = this.state;
@@ -144,6 +162,10 @@ class LoginScreen extends Component {
           <Button
             title="Register"
             onPress={() => this.props.navigation.navigate('Register')}
+          />
+          <Button
+            title="Authenticate with Touch ID"
+            onPress={() => this.scanBiometrics()}
           />
         </View>
     );
